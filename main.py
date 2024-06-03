@@ -1,15 +1,43 @@
 import sqlite3
 import tkinter as tk
 
+connection = sqlite3.connect("data.db")
+cursor = connection.cursor()
+cursor.execute("CREATE TABLE posts (date TEXT, about TEXT, postID INTEGER)")
 
-logins = open("logins.txt", "r")
+class StronaGlowna:
+    def __init__(self):
+        pass
+    def UIMain(self):
+        root_main = tk.Tk()
+        root_main.geometry("800x800")
+        root_main.title("Strona Główna")
+
+        ToDoScrollBar = tk.Scrollbar(root_main, width=30)
+
+        ToDoListbox = tk.Listbox(root_main, yscrollcommand=ToDoScrollBar.set, width=70, height=40)
+        ToDoListbox.place(x=30, y=30)
+
+
+
+        root_main.mainloop()
+
 class Logowanie:
     def __init__(self):
-        self._username = logins.readline(1)
-        self._password = logins.readline(2)
+        logins = open("logins.txt", "r")
+        self._username = ' '.join(logins.readlines(1)).strip()
+        self._password = ' '.join(logins.readlines(2)).strip()
+        self._message = ""
         logins.close()
-    def ButtonLogic(self, ToDestroy):
-        pass
+
+    def ButtonLogic(self, EntryUserVar, EntryPassVar, ToDestroy, ToConfig):
+        if EntryUserVar == self._username and EntryPassVar == self._password:
+            ToDestroy.destroy()
+            Main = StronaGlowna()
+            Main.UIMain()
+        else:
+            ToConfig.config(text="Błąd, przy logowaniu")
+
     def UILogin(self):
         root_login = tk.Tk()
         root_login.geometry("500x600")
@@ -30,9 +58,11 @@ class Logowanie:
         PassEntry = tk.Entry(root_login, width=40)
         PassEntry.place(x=30, y=200)
 
-        LogInButton = tk.Button(text="Log in", height=3, width=14, command=lambda: self.ButtonLogic(root_login))
-        LogInButton.place(x=30, y=400)
+        ErrorLabel = tk.Label(root_login, text="", font=("Courier", 18))
+        ErrorLabel.place(x=30, y=240)
 
+        LogInButton = tk.Button(text="Log in", height=3, width=14, command=lambda: self.ButtonLogic(UserEntry.get(), PassEntry.get(), root_login, ErrorLabel))
+        LogInButton.place(x=30, y=400)
 
         root_login.mainloop()
 
