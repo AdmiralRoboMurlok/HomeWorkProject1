@@ -36,7 +36,7 @@ class StronaGlowna:
         AddToDatabaseButton.place(x=590, y=60)
 
         EditInDatabaseButton = tk.Button(root_main, text="Edytuj", width=16, command=lambda: self.EditInDB(root_main))
-        EditInDatabaseButton.place(x=590, y=80)
+        EditInDatabaseButton.place(x=590, y=90)
 
         root_main.mainloop()
 
@@ -60,7 +60,7 @@ class StronaGlowna:
         DateEntry = tk.Entry(ADDtoDB, width=30)
         DateEntry.place(x=30, y=50)
 
-        AboutLabel = tk.Label(ADDtoDB, text="Poddaj treść", font=("Courier", 14))
+        AboutLabel = tk.Label(ADDtoDB, text="Poddaj treść:", font=("Courier", 14))
         AboutLabel.place(x=30, y=100)
 
         AboutEntry = tk.Entry(ADDtoDB, width=30)
@@ -73,11 +73,34 @@ class StronaGlowna:
 
     def EditInDB(self, ToDestroy):
         ToDestroy.destroy()
+        def EditRecord(NewDate, NewAbout, NewID, ToDestroy):
+            ToDestroy.destroy()
+            pass
+
         EditDB_root = tk.Tk()
         EditDB_root.geometry("300x600")
         EditDB_root.title("Edytuj")
 
+        DateLabel = tk.Label(EditDB_root, text="Poddaj date:", font=("Courier", 14))
+        DateLabel.place(x=30, y=30)
 
+        DateEntry = tk.Entry(EditDB_root, width=30)
+        DateEntry.place(x=30, y=50)
+
+        AboutLabel = tk.Label(EditDB_root, text="Poddaj treść:", font=("Courier", 14))
+        AboutLabel.place(x=30, y=100)
+
+        AboutEntry = tk.Entry(EditDB_root, width=30)
+        AboutEntry.place(x=30, y=120)
+
+        IDLabel = tk.Label(EditDB_root, text="ID wpisu:", font=("Courier", 14))
+        IDLabel.place(x=30, y=170)
+
+        IDEntry = tk.Entry(EditDB_root, width=30)
+        IDEntry.place(x=30, y=190)
+
+        SendButton = tk.Button(EditDB_root, text="Wyślij", height=3, width=12, command=lambda: EditRecord(DateEntry.get(), AboutEntry.get(), IDEntry.get(), EditDB_root))
+        SendButton.place(x=30, y=480)
 
         EditDB_root.mainloop()
 
