@@ -32,8 +32,11 @@ class StronaGlowna:
                 row = str(row).lstrip('[(').rstrip(')]')
                 ToDoListbox.insert(END, row)
 
-        AddToDatabaseButton = tk.Button(text="Dodaj", width=16, command=lambda: self.UIAddToDatabse(root_main))
+        AddToDatabaseButton = tk.Button(root_main, text="Dodaj", width=16, command=lambda: self.UIAddToDatabse(root_main))
         AddToDatabaseButton.place(x=590, y=60)
+
+        EditInDatabaseButton = tk.Button(root_main, text="Edytuj", width=16, command=lambda: self.EditInDB(root_main))
+        EditInDatabaseButton.place(x=590, y=80)
 
         root_main.mainloop()
 
@@ -67,6 +70,17 @@ class StronaGlowna:
         SendButton.place(x=30, y=480)
 
         ADDtoDB.mainloop()
+
+    def EditInDB(self, ToDestroy):
+        ToDestroy.destroy()
+        EditDB_root = tk.Tk()
+        EditDB_root.geometry("300x600")
+        EditDB_root.title("Edytuj")
+
+
+
+        EditDB_root.mainloop()
+
 
 class Logowanie:
     def __init__(self):
