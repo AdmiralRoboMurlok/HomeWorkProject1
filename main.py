@@ -7,7 +7,6 @@ cursor = connection.cursor()
 
 class StronaGlowna:
     def __init__(self):
-        self.PostCount = 0
         self.DataList = []
     def UIMain(self):
         root_main = tk.Tk()
@@ -19,8 +18,8 @@ class StronaGlowna:
         ToDoListbox = tk.Listbox(root_main, yscrollcommand=ToDoScrollBar.set, width=70, height=40)
         ToDoListbox.place(x=30, y=30)
 
-        if self.PostCount > 0:
-            for i in range(self.PostCount + 1):
+        if len(self.DataList) > 0:
+            for i in self.DataList:
                 row = cursor.execute("SELECT date, about FROM posts WHERE postID = ?", (i,),).fetchall()
                 row = str(row).strip()
                 ToDoListbox.insert(row)
@@ -32,8 +31,10 @@ class StronaGlowna:
 
     def UIAddToDatabse(self):
 
-        def AddDatatoDatabase(date, about):
-            pass
+        def AddDatatoDatabase(ADate, about):
+            CurrentID = len(self.DataList) + 1
+            cursor.execute("INSERT INTO posts VALUES (%s , %s, %s)", (ADate, about, CurrentID))
+            self.DataList.append(CurrentID)
 
         ADDtoDB = tk.Tk()
         ADDtoDB.geometry("300x600")
@@ -50,7 +51,7 @@ class StronaGlowna:
         AboutEntry = tk.Entry(ADDtoDB, width=30)
         AboutEntry.place(x=30, y=120)
 
-        SendButton = tk.Button(ADDtoDB, text="Wyślij", height=3, width=12)
+        SendButton = tk.Button(ADDtoDB, text="Wyślij", height=3, width=12, command=lambda: AddDatatoDatabase(DateEntry.get(), AboutEntry.get()))
         SendButton.place(x=30, y=480)
 
         ADDtoDB.mainloop()
