@@ -73,10 +73,12 @@ class StronaGlowna:
 
     def EditInDB(self, ToDestroy):
         ToDestroy.destroy()
-        def EditRecord(NewDate, NewAbout, NewID, ToDestroy, ToConfig):
-            if NewID in self.DataList:
-                ToDestroy.destroy()
 
+        def EditRecord(NewDate, NewAbout, NewID, ToDestroy, ToConfig):
+            if int(NewID) in self.DataList:
+                cursor.execute("UPDATE posts SET date = ?, about = ? WHERE postID = ?", (NewDate, NewAbout, int(NewID)))
+                ToDestroy.destroy()
+                self.UIMain()
             else:
                 ToConfig.config(text="Błędne ID")
 
