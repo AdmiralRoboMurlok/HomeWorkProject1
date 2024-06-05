@@ -3,11 +3,12 @@ import tkinter as tk
 
 connection = sqlite3.connect("data.db")
 cursor = connection.cursor()
-cursor.execute("CREATE TABLE posts (date TEXT, about TEXT, postID INTEGER)")
+#cursor.execute("CREATE TABLE posts (date TEXT, about TEXT, postID INTEGER)")
 
 class StronaGlowna:
     def __init__(self):
-        pass
+        self.PostCount = 0
+        self.DataList = []
     def UIMain(self):
         root_main = tk.Tk()
         root_main.geometry("800x800")
@@ -18,9 +19,41 @@ class StronaGlowna:
         ToDoListbox = tk.Listbox(root_main, yscrollcommand=ToDoScrollBar.set, width=70, height=40)
         ToDoListbox.place(x=30, y=30)
 
+        if self.PostCount > 0:
+            for i in range(self.PostCount + 1):
+                row = cursor.execute("SELECT date, about FROM posts WHERE postID = ?", (i,),).fetchall()
+                row = str(row).strip()
+                ToDoListbox.insert(row)
 
+        AddToDatabaseButton = tk.Button(text="Dodaj", width=16, command=self.UIAddToDatabse)
+        AddToDatabaseButton.place(x=590, y=60)
 
         root_main.mainloop()
+
+    def UIAddToDatabse(self):
+
+        def AddDatatoDatabase(date, about):
+            pass
+
+        ADDtoDB = tk.Tk()
+        ADDtoDB.geometry("300x600")
+
+        DateLabel = tk.Label(ADDtoDB, text="Poddaj date:", font=("Courier", 14))
+        DateLabel.place(x=30, y=30)
+
+        DateEntry = tk.Entry(ADDtoDB, width=30)
+        DateEntry.place(x=30, y=50)
+
+        AboutLabel = tk.Label(ADDtoDB, text="Poddaj treść", font=("Courier", 14))
+        AboutLabel.place(x=30, y=100)
+
+        AboutEntry = tk.Entry(ADDtoDB, width=30)
+        AboutEntry.place(x=30, y=120)
+
+        SendButton = tk.Button(ADDtoDB, text="Wyślij", height=3, width=12)
+        SendButton.place(x=30, y=480)
+
+        ADDtoDB.mainloop()
 
 class Logowanie:
     def __init__(self):
