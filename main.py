@@ -73,9 +73,13 @@ class StronaGlowna:
 
     def EditInDB(self, ToDestroy):
         ToDestroy.destroy()
-        def EditRecord(NewDate, NewAbout, NewID, ToDestroy):
-            ToDestroy.destroy()
-            pass
+        def EditRecord(NewDate, NewAbout, NewID, ToDestroy, ToConfig):
+            if NewID in self.DataList:
+                ToDestroy.destroy()
+
+            else:
+                ToConfig.config(text="Błędne ID")
+
 
         EditDB_root = tk.Tk()
         EditDB_root.geometry("300x600")
@@ -99,7 +103,10 @@ class StronaGlowna:
         IDEntry = tk.Entry(EditDB_root, width=30)
         IDEntry.place(x=30, y=190)
 
-        SendButton = tk.Button(EditDB_root, text="Wyślij", height=3, width=12, command=lambda: EditRecord(DateEntry.get(), AboutEntry.get(), IDEntry.get(), EditDB_root))
+        ErrorLabel = tk.Label(EditDB_root, text="", font=("Courier", 14))
+        ErrorLabel.place(x=30, y=250)
+
+        SendButton = tk.Button(EditDB_root, text="Wyślij", height=3, width=12, command=lambda: EditRecord(DateEntry.get(), AboutEntry.get(), IDEntry.get(), EditDB_root, ErrorLabel))
         SendButton.place(x=30, y=480)
 
         EditDB_root.mainloop()
