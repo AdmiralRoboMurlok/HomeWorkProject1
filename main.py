@@ -123,7 +123,7 @@ class StronaGlowna:
         ToDestroy.destroy()
         def RemoveRecord(ToRemove, ToDestroy, ToConfig):
             if int(ToRemove) in self.DataList:
-                cursor.execute("", (int(ToRemove)))
+                cursor.execute("DELETE FROM posts WHERE postID = ?", (int(ToRemove), ))
                 ToDestroy.destroy()
                 self.UIMain()
             else:
