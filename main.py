@@ -6,6 +6,9 @@ connection = sqlite3.connect("data.db")
 cursor = connection.cursor()
 #cursor.execute("CREATE TABLE posts (date TEXT, about TEXT, postID INTEGER)")
 
+def placeholder():
+    pass
+
 class StronaGlowna:
     def __init__(self):
         self.DataList = []
@@ -37,6 +40,9 @@ class StronaGlowna:
 
         EditInDatabaseButton = tk.Button(root_main, text="Edytuj", width=16, command=lambda: self.EditInDB(root_main))
         EditInDatabaseButton.place(x=590, y=90)
+
+        RemoveFromDatabaseButton = tk.Button(root_main, text="Usuń", width=16, command=lambda: self.RemoveFromDB(root_main))
+        RemoveFromDatabaseButton.place(x=590, y=120)
 
         root_main.mainloop()
 
@@ -113,6 +119,33 @@ class StronaGlowna:
 
         EditDB_root.mainloop()
 
+    def RemoveFromDB(self, ToDestroy):
+        ToDestroy.destroy()
+        def RemoveRecord(ToRemove, ToDestroy, ToConfig):
+            if int(ToRemove) in self.DataList:
+                cursor.execute("", (int(ToRemove)))
+                ToDestroy.destroy()
+                self.UIMain()
+            else:
+                ToConfig.config(text="Błędne ID")
+
+        RemoveRecordRoot = tk.Tk()
+        RemoveRecordRoot.geometry("300x600")
+        RemoveRecordRoot.title("Usuwanie")
+
+        IDLabel = tk.Label(RemoveRecordRoot, text="ID wpisu:", font=("Courier", 14))
+        IDLabel.place(x=30, y=30)
+
+        IDEntry = tk.Entry(RemoveRecordRoot, width=30)
+        IDEntry.place(x=30, y=50)
+
+        ErrorLabel = tk.Label(RemoveRecordRoot, text="", font=("Courier", 14))
+        ErrorLabel.place(x=30, y=90)
+
+        SendButton = tk.Button(RemoveRecordRoot, text="Wyślij", height=3, width=12, command=lambda: RemoveRecord(IDEntry.get(), RemoveRecordRoot, ErrorLabel))
+        SendButton.place(x=30, y=480)
+
+        RemoveRecordRoot.mainloop()
 
 class Logowanie:
     def __init__(self):
